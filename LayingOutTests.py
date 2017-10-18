@@ -42,3 +42,10 @@ def testShouldReloadData(self):
 
     self.assertEqual('data2', result)
 
+# DO
+# Split tests into well-defined arrange,act, assert blocks
+# Ensure that the blocks are visually distinct from one another via line breaks or comments
+
+# Don't
+# Perform additional setup after acting on the object under test
+# Make additional calls to the object under test after making verification
