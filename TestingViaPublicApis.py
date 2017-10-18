@@ -1,6 +1,10 @@
 # Tests should focus on testing your code's public API, and your code's implementation
 #  details shouldn't need to be exposed to tests
 
+
+
+# BAD - Tests private implementation details directly rather than using the public API:
+
 def ProcessTransaction(transaction):
   if _IsValid(transaction):
     _SaveToDatabase(transaction)
@@ -11,8 +15,6 @@ def _IsValid(transaction):
 def _SaveToDataBase(transaction):
   # compute serialized transaction
   database.put(transaction.id, serialized_transaction)
-
-# BAD - Tests private implementation details directly rather than using the public API:
 
 def testIsValid(self):
     self.assertFalse(bank._isValid(bank.Transaction(source=EMPTY_ACCOUNT)),
@@ -37,3 +39,15 @@ def testShouldNotSaveInvalidTransactions(self):
     self.assertTrue(database.IsEmpty())
 
 # END Good
+
+# GOOD START - Injecting objects to encapsulate difficult-to-test code mocking out difficult to test code
+
+class TransactionProcessor(object):
+    def ProcessTransaction(self, transaction):
+        # Do some interesting stuff...
+        self._SaveToDatabase(transaction)
+
+    def _SaveToDatabase(self, transaction):
+        self.database.put(transaction.id, transaction)
+
+def
