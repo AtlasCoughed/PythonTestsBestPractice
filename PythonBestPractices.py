@@ -51,3 +51,26 @@ def testMultiply(self):
   self.assertEqual(15, my_math.Multiply(3, 5))
 
 # END - BAD
+
+
+#######################################################
+
+# Dos
+
+# Approach tests as descriptions of outputs for given inputs,
+# not full-fledged programs
+
+# Write tests as straight-line code that doesn't force the reader to do mental
+# computations to verify the test's correctness.
+
+# Identify interesting boundary inputs for the code under test
+# and test against those values instead of testing exhaustively using loops.
+
+
+# DON'T
+#
+# Repeat the logic of the code under test in the test itself
+# Use loops, conditionals, or complex operations in the body of a test (
+# they're sometimes okay in helper methods)
+
+
