@@ -40,7 +40,7 @@ def testShouldNotSaveInvalidTransactions(self):
 
 # END Good
 
-# GOOD START - Injecting objects to encapsulate difficult-to-test code mocking out difficult to test code
+# BAD START - Injecting objects to encapsulate difficult-to-test code mocking out difficult to test code
 
 class TransactionProcessor(object):
     def ProcessTransaction(self, transaction):
@@ -50,4 +50,47 @@ class TransactionProcessor(object):
     def _SaveToDatabase(self, transaction):
         self.database.put(transaction.id, transaction)
 
-def
+def testShouldSaveToDatabase(self):
+    # Define a new class that keeps track of whether _SaveToDatabase was called
+    class TestTransactionProcssor(bank.TransactionProcessor):
+        def _SaveToDatabase(self, transaction):
+            self.saved_to_database = True
+
+    processor = TestTransactionProcessor()
+    processor.ProcessTransaction(bank.Transaction("id"))
+    self.assertTrue(processor.saved_to_database)
+
+# BAD END - -----
+
+# Good START --- Mocks Objects encapsulating untestable code and uses public API
+
+    # DO
+    #
+    # Make calls only against a class's externally visible (i.e., public and protected) methods in unit tests
+    # C++ and Java: Expose only constants, and only when necessary
+    # If you expose constants in Java, please mark the modifications with @VisibleForTesting
+    # Replace untestable code with mocks or fakes in tests
+    # Refactor private methods you want to test directly into their own component
+    #
+    # DON'T
+    #
+    # Increase visibility for methods that would otherwise be private in
+    # order to expose them to unit tests
+    # Extend a class under test to override certain methods and change their behavior
+    #
+    # Write tests that exercise a
+    # class in a way that a user wouldn't be able to understand
+
+
+def testShouldSaveToDatabase(self):
+    database = db.InMemoryDatabase()
+    with mock.patch.object(db, 'HeavyweightDatabase', return_value = database):
+        processor = bank.TransactionProcessor()
+        transaction = bank.Transaction('id')
+
+        processor.ProcessTransaction(transaction)
+
+    self.assertEqual(transaction, database.get('id'))
+
+# Good END
+
